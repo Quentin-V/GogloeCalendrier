@@ -171,6 +171,8 @@ public class SignUpActivity extends AppCompatActivity {
 				assert warnIco != null;
 				warnIco.setBounds(0, 0, warnIco.getIntrinsicWidth(), warnIco.getIntrinsicHeight());
 
+				Intent mainIntent = new Intent(SignUpActivity.this, LoginActivity.class);
+
 				String error = result.split(":")[1];
 				switch (error) {
 					case "InvalidEmailFormat": // Shouldn't be possible
@@ -194,10 +196,14 @@ public class SignUpActivity extends AppCompatActivity {
 						SignUpActivity.this.etUsername.setError("Un compte avec ce nom d'utilisateur existe déjà", warnIco);
 						break;
 					case "MailFail":
-						Toast.makeText(SignUpActivity.this, "Erreur dans l'envoi du mail de confirmation, votre compte a été vérifié", Toast.LENGTH_SHORT).show();
+						Toast.makeText(SignUpActivity.this, "Erreur dans l'envoi du mail de confirmation, votre compte a été vérifié", Toast.LENGTH_LONG).show();
+						SignUpActivity.this.startActivity(mainIntent);
+						SignUpActivity.this.finish();
 						break;
 					case "Confed":
-						Toast.makeText(SignUpActivity.this, "Erreur serveur, votre compte a été vérifié", Toast.LENGTH_SHORT).show();
+						Toast.makeText(SignUpActivity.this, "Erreur serveur, votre compte a été vérifié", Toast.LENGTH_LONG).show();
+						SignUpActivity.this.startActivity(mainIntent);
+						SignUpActivity.this.finish();
 						break;
 					case "ImpQuery":
 						Toast.makeText(SignUpActivity.this, "Erreur serveur, veuillez réessayer ultérieuremet", Toast.LENGTH_SHORT).show();
@@ -207,7 +213,7 @@ public class SignUpActivity extends AppCompatActivity {
 				}
 			}else { // Pas d'erreur
 				if(result.equals("Confsend")) {
-					Toast.makeText(SignUpActivity.this, "Un mail de confirmation vous a été envoyé.", Toast.LENGTH_SHORT).show();
+					Toast.makeText(SignUpActivity.this, "Un mail de confirmation vous a été envoyé.", Toast.LENGTH_LONG).show();
 					Intent mainIntent = new Intent(SignUpActivity.this, LoginActivity.class);
 					SignUpActivity.this.startActivity(mainIntent);
 					SignUpActivity.this.finish();

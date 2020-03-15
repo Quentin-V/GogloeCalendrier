@@ -167,6 +167,7 @@ public class LoginActivity extends AppCompatActivity {
 						break;
 					case "NotConfirmed":
 						Toast.makeText(LoginActivity.this, "Compte non validé, veuillez confirmer le compte via le courriel qui vous a été envoyé", Toast.LENGTH_SHORT).show();
+						LoginActivity.this.tvErrors.setText("Votre compte n'a pas été confirmé, vérifiez vos mails et confirmez votre compte.");
 						break;
 					case "IncorrectPass":
 						Toast.makeText(LoginActivity.this, "Mot de passe incorrect", Toast.LENGTH_SHORT).show();
