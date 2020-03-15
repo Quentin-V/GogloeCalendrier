@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Gogloe Calendrier</string>
+    <string name="username">Username</string>
+    <string name="e_mail_address">E-mail address</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="email_adress_username">Email address / Username</string>
+    <string name="remember_me">Remember me</string>
+    <string name="pas_encore_de_compte_cliquez_ici">Pas encore de compte, cliquez ici!</string>
+    <string name="logo_de_gogloe">Logo de gogloe</string>
+    <string name="gogloe_calendar">Gogloe Calendar</string>
+    <string name="connexion">Connexion</string>
+    <string name="go">Go</string>
+
+
+    <string name="invalid_mail_format">Adresse courriel invalide</string>
+    <string name="username_too_long">Nom d\'utilisateur trop long (max 36 caractères)</string>
+    <string name="password_too_long">Mot de passe trop long (max 50 caractères)</string>
+    <string name="passwords_not_matching">Les mots de passes ne correspondent pas</string>
+
+    <string name="mailorusername_invalid">Nom d\'utilisateur ou adresse courriel invalide</string>
+    <string name="password_invalid">Mot de passe invalide</string>
+    <string name="token_revoked">Token révoqué, veuillez vous connecter manuellement</string>
+    <string name="token_expired">Token expiré, veuillez vous connecter manuellement</string>
+</resources>
