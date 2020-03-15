@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 	private EditText etMailOrUsername;
 	private EditText etPassword;
 	private TextView tvErrors;
+	private CheckBox cbRememberMe;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +45,12 @@ public class LoginActivity extends AppCompatActivity {
 		etMailOrUsername = findViewById(R.id.etMailOrUsername);
 		etPassword       = findViewById(R.id.etPassword);
 		tvErrors         = findViewById(R.id.errors);
+		cbRememberMe     = findViewById(R.id.cbRememberMe);
 
 		SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 		String token = sharedPreferences.getString("Token", null);
 		if(token != null) {
-			Log.i("Qiunta", "Connexion token");
+			Log.i("Quinta", "Connexion token");
 			new TokenConnexion().execute("https://gogloecalendrier.alwaysdata.net/connection.php", token);
 		}
 	}
@@ -92,12 +95,12 @@ public class LoginActivity extends AppCompatActivity {
 		}else if(passsword.length() > 50) {
 			ret.add("PasswordTooLong");
 		}
-
 		return ret;
 	}
 
 	final String SHARED_PREFS = "GogloeCalendrier";
 	final String TOKEN = "Token";
+	final String TEMP_TOKEN = "TempToken";
 
 	@SuppressLint("StaticFieldLeak")
 	private class Connexion extends AsyncTask<String, Void, String> {
@@ -181,7 +184,11 @@ public class LoginActivity extends AppCompatActivity {
 					String token = result.split(":")[1];
 					SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 					SharedPreferences.Editor editor = sharedPreferences.edit();
-					editor.putString(TOKEN, token);
+					if(LoginActivity.this.cbRememberMe.isChecked()) {
+						editor.putString(TOKEN, token);
+					}else {
+						editor.putString(TEMP_TOKEN, token);
+					}
 					editor.apply();
 					String[] tokenParts = token.split("\\.");
 					byte[] decoded = Base64.decode(tokenParts[1], Base64.URL_SAFE);
