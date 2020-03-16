@@ -1,6 +1,7 @@
 package quinta.uqac.gogloecalendrier;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
 	private TextView tvErrors;
 	private CheckBox cbRememberMe;
 
+	private ConstraintLayout loadingLayout;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,11 +49,13 @@ public class LoginActivity extends AppCompatActivity {
 		etPassword       = findViewById(R.id.etPassword);
 		tvErrors         = findViewById(R.id.errors);
 		cbRememberMe     = findViewById(R.id.cbRememberMe);
+		loadingLayout    = findViewById(R.id.loadingLayout);
 
 		SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 		String token = sharedPreferences.getString("Token", null);
 		if(token != null) {
 			Log.i("Quinta", "Connexion token");
+			afficherChargement();
 			new TokenConnexion().execute("https://gogloecalendrier.alwaysdata.net/connection.php", token);
 		}
 	}
@@ -96,6 +101,14 @@ public class LoginActivity extends AppCompatActivity {
 			ret.add("PasswordTooLong");
 		}
 		return ret;
+	}
+
+	private void afficherChargement() {
+		loadingLayout.setVisibility(View.VISIBLE);
+	}
+
+	private void retirerChargement() {
+		loadingLayout.setVisibility(View.INVISIBLE);
 	}
 
 	final String SHARED_PREFS = "GogloeCalendrier";
@@ -150,6 +163,8 @@ public class LoginActivity extends AppCompatActivity {
 
 		@Override
 		protected void onPostExecute(String result) {
+
+			retirerChargement();
 
 			if(result.startsWith("Err:")) { // If there was an error
 
@@ -210,7 +225,6 @@ public class LoginActivity extends AppCompatActivity {
 		}
 	}
 
-
 	@SuppressLint("StaticFieldLeak")
 	private class TokenConnexion extends AsyncTask<String, Void, String> {
 
@@ -258,6 +272,8 @@ public class LoginActivity extends AppCompatActivity {
 
 		@Override
 		protected void onPostExecute(String result) {
+
+			retirerChargement();
 
 			Log.i("Quinta", "Result : " + result);
 
