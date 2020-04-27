@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
 	private TextView tvErrors;
 	private CheckBox cbRememberMe;
 
+	private Button btnConnection;
+
 	private ConstraintLayout loadingLayout;
 
 	@Override
@@ -50,12 +54,14 @@ public class LoginActivity extends AppCompatActivity {
 		tvErrors         = findViewById(R.id.errors);
 		cbRememberMe     = findViewById(R.id.cbRememberMe);
 		loadingLayout    = findViewById(R.id.loadingLayout);
+		btnConnection    = findViewById(R.id.btnConnection);
 
 		SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 		String token = sharedPreferences.getString("Token", null);
 		if(token != null) {
+			btnConnection.setEnabled(false);
 			Log.i("Quinta", "Connexion token");
-			afficherChargement();
+			//afficherChargement();
 			new TokenConnexion().execute("https://gogloecalendrier.alwaysdata.net/connection.php", token);
 		}
 	}
@@ -71,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 		String password       = etPassword.getText().toString();
 		ArrayList<String> errors = checkFields(mailOrUsername, password);
 		if(errors.isEmpty()) {
+			btnConnection.setEnabled(false);
 			Connexion connexion = new Connexion();
 			connexion.execute("https://gogloecalendrier.alwaysdata.net/connection.php", mailOrUsername, password);
 		}else {
@@ -111,9 +118,9 @@ public class LoginActivity extends AppCompatActivity {
 		loadingLayout.setVisibility(View.INVISIBLE);
 	}
 
-	final String SHARED_PREFS = "GogloeCalendrier";
-	final String TOKEN = "Token";
-	final String TEMP_TOKEN = "TempToken";
+	final static String SHARED_PREFS = "GogloeCalendrier";
+	final static String TOKEN = "Token";
+	final static String TEMP_TOKEN = "TempToken";
 
 	@SuppressLint("StaticFieldLeak")
 	private class Connexion extends AsyncTask<String, Void, String> {
@@ -152,7 +159,8 @@ public class LoginActivity extends AppCompatActivity {
 				return retour;
 
 			}catch (UnknownHostException uhe) {
-				return "Erreur Internet";
+				return "Ouioui";
+				//return "Err:CheckInternet";
 			}
 			catch (IOException ioe) {
 				ioe.printStackTrace();
@@ -164,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
 		@Override
 		protected void onPostExecute(String result) {
 
-			retirerChargement();
+			//retirerChargement();
 
 			if(result.startsWith("Err:")) { // If there was an error
 
@@ -191,6 +199,9 @@ public class LoginActivity extends AppCompatActivity {
 					case "NotFound":
 						Toast.makeText(LoginActivity.this, "Utilisateur introuvable", Toast.LENGTH_SHORT).show();
 						LoginActivity.this.etMailOrUsername.setError("Identifiant introuvable", warnIco);
+						break;
+					case "CheckInternet":
+						Toast.makeText(LoginActivity.this, "Impossible d'effectuer la requête, vérifiez votre connexion internet", Toast.LENGTH_LONG).show();
 						break;
 					default:
 						Toast.makeText(LoginActivity.this, "Erreur inconnue", Toast.LENGTH_SHORT).show();
@@ -222,6 +233,7 @@ public class LoginActivity extends AppCompatActivity {
 				LoginActivity.this.startActivity(mainIntent);
 				LoginActivity.this.finish();
 			}
+			btnConnection.setEnabled(true);
 		}
 	}
 
@@ -273,7 +285,7 @@ public class LoginActivity extends AppCompatActivity {
 		@Override
 		protected void onPostExecute(String result) {
 
-			retirerChargement();
+			//retirerChargement();
 
 			Log.i("Quinta", "Result : " + result);
 
@@ -289,7 +301,7 @@ public class LoginActivity extends AppCompatActivity {
 						Toast.makeText(LoginActivity.this, "Erreur serveur", Toast.LENGTH_SHORT).show();
 						break;
 					case "TokenRevoked":
-						Toast.makeText(LoginActivity.this, "Mot de passe incorrect", Toast.LENGTH_SHORT).show();
+						Toast.makeText(LoginActivity.this, "Token révoqué", Toast.LENGTH_SHORT).show();
 						LoginActivity.this.tvErrors.setText(getResources().getString(R.string.token_revoked));
 						break;
 					case "ExpiredOrInvalidSyntaxToken":

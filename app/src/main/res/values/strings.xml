@@ -23,4 +23,6 @@
     <string name="password_invalid">Mot de passe invalide</string>
     <string name="token_revoked">Token révoqué, veuillez vous connecter manuellement</string>
     <string name="token_expired">Token expiré, veuillez vous connecter manuellement</string>
+    <string name="title_activity_test">TEST</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

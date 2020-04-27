@@ -6,49 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".CalendrierActivity">
 
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="gotoAddEvent"
+        android:text="Ajouter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <CalendarView
         android:id="@+id/calendarView"
-        android:layout_width="350dp"
-        android:layout_height="302dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TimePicker
-        android:id="@+id/timePicker2"
-        android:layout_width="185dp"
-        android:layout_height="323dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layoutMode="clipBounds"
-        android:overScrollMode="always"
-        android:scrollbarSize="1dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView">
-
-    </TimePicker>
-
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="185dp"
-        android:layout_height="323dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/timePicker2"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView">
-
-    </TimePicker>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="go"
-        android:text="@string/go"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ScrollView
+        android:layout_width="409dp"
+        android:layout_height="359dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:onClick="gotoAddEvent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timePicker2" />
+        app:layout_constraintTop_toBottomOf="@+id/calendarView">
+
+        <LinearLayout
+            android:id="@+id/listEvts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,8 +3,10 @@ package quinta.uqac.gogloecalendrier;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -16,7 +18,6 @@ public class SplashScreen extends AppCompatActivity {
 		new Handler().postDelayed(new Runnable(){
 			@Override
 			public void run() {
-				/* Create an Intent that will start the Menu-Activity. */
 				Intent mainIntent = new Intent(SplashScreen.this, LoginActivity.class);
 				SplashScreen.this.startActivity(mainIntent);
 				SplashScreen.this.finish();
